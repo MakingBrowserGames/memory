@@ -1,0 +1,29 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'start' ]
+2 info using npm@1.2.18
+3 info using node@v0.10.15
+4 verbose read json /home/imaginabit/public_html/memory/package.json
+5 verbose run-script [ 'prestart', 'start', 'poststart' ]
+6 info prestart memory@0.0.0
+7 info start memory@0.0.0
+8 verbose unsafe-perm in lifecycle true
+9 silly exec sh "-c" "node ./node_modules/gulp/bin/gulp.js"
+10 silly sh,-c,node ./node_modules/gulp/bin/gulp.js,/home/imaginabit/public_html/memory spawning
+11 info memory@0.0.0 Failed to exec start script
+12 error memory@0.0.0 start: `node ./node_modules/gulp/bin/gulp.js`
+12 error `sh "-c" "node ./node_modules/gulp/bin/gulp.js"` failed with 1
+13 error Failed at the memory@0.0.0 start script.
+13 error This is most likely a problem with the memory package,
+13 error not with npm itself.
+13 error Tell the author that this fails on your system:
+13 error     node ./node_modules/gulp/bin/gulp.js
+13 error You can get their info via:
+13 error     npm owner ls memory
+13 error There is likely additional logging output above.
+14 error System Linux 3.11.0-19-generic
+15 error command "/usr/bin/nodejs" "/usr/bin/npm" "start"
+16 error cwd /home/imaginabit/public_html/memory
+17 error node -v v0.10.15
+18 error npm -v 1.2.18
+19 error code ELIFECYCLE
+20 verbose exit [ 1, true ]
