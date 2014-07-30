@@ -79,13 +79,14 @@
     },
     initVolver: function(){
         this.volver.name = 'volver';
-
+/*
         console.log(this.volver.input);
         console.log(this.tienesDCH.input);
         console.log(this.volver);
         console.log(this.tienesDCH);
         console.log('card');
         console.log(this.cards.getFirstExists(true));
+        */
     },
 
     update: function () {
@@ -161,10 +162,8 @@
         return; // evita levantar mas de dos cartas
       }
       this.cartasLevantadas.push(c);
-      console.log('n cartas levantadas = '+this.nCartasLevantadas);
-      console.log('cartas levantadas = '+this.cartasLevantadas.toString());
-      //this.game.add.tween(c.scale).delay(100).to({x:0},400).start();
-      //this.game.add.tween(c.scale).delay(500).to({x:1},400).start();
+      //console.log('n cartas levantadas = '+this.nCartasLevantadas);
+      //console.log('cartas levantadas = '+this.cartasLevantadas.toString());
 
 
       //c.animations.add('walk');
@@ -184,8 +183,13 @@
           while(this.cartasLevantadas.length > 0) { this.cartasLevantadas.pop();}
           this.nCartasLevantadas = 0;
           //console.log('cartas levantadas:'+this.cartasLevantadas);
+          //se evita volver a picar en las cartas levantadas:
+          this.cartasLevantadas[0].inputEnabled = false;
+          this.cartasLevantadas[1].inputEnabled = false;
+          this.cartasLevantadas[0].input.useHandCursor = false;
+          this.cartasLevantadas[1].input.useHandCursor = false;
         } else {
-          console.log('fallo');
+          //console.log('fallo');
 
           this.label2.text = '¡Ay!, has \nfallado';
           this.label3.text = 'Vamos, ¡sigue jugando!\n';
@@ -195,8 +199,8 @@
           // las segunda carta se oculta sin poder verse si no pongo el timer
           this.timer = this.game.time.create(this.game);
           this.timer.add(1000, function(){
-            console.log(this);
-            console.log('cartas levantadas 0 :' + this.cartasLevantadas[0]);
+            //console.log(this);
+            //console.log('cartas levantadas 0 :' + this.cartasLevantadas[0]);
 
             //volver a la normalidad
             ///c.anchor.set(0);
@@ -205,9 +209,15 @@
 
             this.girarCarta(this.cartasLevantadas[0]);
             this.girarCarta(this.cartasLevantadas[1]);
+
+            //vuelve a activar las cartas
+            this.cartasLevantadas[0].inputEnabled = true;
+            this.cartasLevantadas[1].inputEnabled = true;
+            this.cartasLevantadas[0].input.useHandCursor = true;
+            this.cartasLevantadas[1].input.useHandCursor = true;
             //console.log(this.timeCheck);
             //console.log(this.time.now);
-            console.log('timeee');
+            //console.log('timeee');
             //vaciar el array
             while(this.cartasLevantadas.length > 0) { this.cartasLevantadas.pop();}
             this.nCartasLevantadas = 0;
@@ -218,6 +228,9 @@
         this.score += 1;
         this.labelScore.text = 'MOVIMIENTOS: '+ this.score;
       } else {
+          // evitar que se pueda picar esta carta dos veces
+          c.inputEnabled = false;
+          c.input.useHandCursor = false;
           // cuando se levanta la primera carta cambiamos el texto
           this.label1.text = this.textos[c.dibujoCarta][0];
           this.label2.text = '';
@@ -235,7 +248,7 @@
           c.tapada = false;
           // compruebo si se han destapado todas la cartas cuando termina la animación!
           if (this.aciertos === 6){
-            console.log('completo');
+            //console.log('completo');
             this.timer2 = this.game.time.create( this.game );
             this.timer2.add( 2000, function(){
               this.siguienteFase();
@@ -264,7 +277,7 @@
         .start();
     },
     fase2: function(){
-        console.log("Fase 2 -----------------------------------------------------");
+        //console.log('Fase 2 -----------------------------------------------------');
         this.fase = 1 ;
         this.aciertos = 0;
 
@@ -277,7 +290,6 @@
         //esperar un poco para que se pueda leer el ultimo texto..
         this.timer2 = this.game.time.create( this.game );
         this.timer2.add( 1000, function(){
-          console.log("time");
           this.label1.text='¡Sigue jugando!\n               ';
           this.label2.text='Da la vuelta a estas \núltimas 12 casillas.';
           this.label3.text='Completa esta pantalla \ny termina de conocer \ntus derechos \nfundamentales.';
@@ -306,7 +318,7 @@
       if (this.fase === 0){
         this.fase2();
       } else if (this.fase === 1){
-        console.log( 'HAS COMPLETADO EL JUEGO');
+        //console.log( 'HAS COMPLETADO EL JUEGO');
         this.borrarCartas();
         //this.state.start('fin');
 
@@ -381,8 +393,8 @@
     var baraja = Game.prototype.baraja;
     var barajaInicial = [];
 
-    var conta = 0
-    if (this.fase === 1 ){ conta = 6 }//en la fase dos la segunda parte de la baraja se muestra
+    var conta = 0;
+    if ( this.fase === 1 ){ conta = 6; }//en la fase dos la segunda parte de la baraja se muestra
     for ( var i = conta ; i < conta + nCartas/2 ; i++){
         barajaInicial.push(i);
     }
@@ -401,7 +413,7 @@
       //var a = barajaInicial.indexOf(thisCarta);
       barajaInicial.splice(randomPosition , 1);
     }
-    console.log(baraja.toString());
+    //console.log(baraja.toString());
   };
 
 Game.prototype.textos = [];
