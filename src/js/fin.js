@@ -11,7 +11,7 @@
     },
     update : function() {
     }
-  }
+  };
 
   window['memory'] = window['memory'] || {};
   window['memory'].Fin = Fin;

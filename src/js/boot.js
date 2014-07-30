@@ -13,7 +13,7 @@
   };
 */
 var  WebFontConfig = {
-    active: function() { this.time.events.add(Phaser.Timer.SECOND, createText, this); },
+    //active: function() { this.time.events.add(Phaser.Timer.SECOND, createText, this); },
     google: { families: [ 'Roboto:400,300,500,700,700italic,500italic,400italic,300italic:latin' ] }
   };
   (function() {
