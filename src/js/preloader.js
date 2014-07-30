@@ -15,14 +15,21 @@
       this.load.onLoadComplete.addOnce(this.onLoadComplete, this);
       this.load.setPreloadSprite(this.asset);
       this.load.image('player', 'assets/player.png');
-      //this.load.image('card', 'assets/player.png');
-      //this.load.image('card1', 'assets/carta1.png');
-      //this.load.image('card2', 'assets/carta2.png');
-      //this.load.image('card3', 'assets/carta3.png');
 
-      this.load.spritesheet('card', 'assets/cartas.png', 100, 100);
+      this.load.image('tienesDCH', 'assets/logo_tienesDCH.png');
+      this.load.image('lamerced', 'assets/logo_migraciones.png');
+      this.load.image('cabecera', 'assets/cabecera_juego.png');
+      this.load.image('volver', 'assets/vover_instrucciones.png');
+      this.load.image('final', 'assets/ImagenFinal_juego.png');
+      this.load.image('derechoFinal', 'assets/frasefinal.png');
 
-      this.load.bitmapFont('minecraftia', 'assets/minecraftia.png', 'assets/minecraftia.xml');
+      this.load.image('facebook', 'assets/facebook.png');
+      this.load.image('twitter', 'assets/twitter.png');
+
+      this.load.spritesheet('card', 'assets/cartas.png', 150, 150);
+
+      //cargar fuente roboto en lugar de esta...
+      //this.load.bitmapFont('minecraftia', 'assets/minecraftia.png', 'assets/minecraftia.xml');
     },
 
     create: function () {
@@ -31,7 +38,7 @@
 
     update: function () {
       if (!!this.ready) {
-        this.game.state.start('menu');
+        this.game.state.start('game');
       }
     },
 

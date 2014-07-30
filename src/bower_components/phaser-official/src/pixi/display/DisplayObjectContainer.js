@@ -36,17 +36,29 @@ PIXI.DisplayObjectContainer.prototype.constructor = PIXI.DisplayObjectContainer;
  * @type Number
  */
 
- /*
+ 
 Object.defineProperty(PIXI.DisplayObjectContainer.prototype, 'width', {
     get: function() {
         return this.scale.x * this.getLocalBounds().width;
     },
     set: function(value) {
-        this.scale.x = value / (this.getLocalBounds().width/this.scale.x);
+        
+        var width = this.getLocalBounds().width;
+
+        if(width !== 0)
+        {
+            this.scale.x = value / ( width/this.scale.x );
+        }
+        else
+        {
+            this.scale.x = 1;
+        }
+
+        
         this._width = value;
     }
 });
-*/
+
 
 /**
  * The height of the displayObjectContainer, setting this will actually modify the scale to achieve the value set
@@ -55,17 +67,27 @@ Object.defineProperty(PIXI.DisplayObjectContainer.prototype, 'width', {
  * @type Number
  */
 
-/*
 Object.defineProperty(PIXI.DisplayObjectContainer.prototype, 'height', {
     get: function() {
         return  this.scale.y * this.getLocalBounds().height;
     },
     set: function(value) {
-        this.scale.y = value / (this.getLocalBounds().height/this.scale.y);
+
+        var height = this.getLocalBounds().height;
+
+        if(height !== 0)
+        {
+            this.scale.y = value / ( height/this.scale.y );
+        }
+        else
+        {
+            this.scale.y = 1;
+        }
+
         this._height = value;
     }
 });
-*/
+
 
 /**
  * Adds a child to the container.
@@ -75,7 +97,7 @@ Object.defineProperty(PIXI.DisplayObjectContainer.prototype, 'height', {
  */
 PIXI.DisplayObjectContainer.prototype.addChild = function(child)
 {
-    this.addChildAt(child, this.children.length);
+    return this.addChildAt(child, this.children.length);
 };
 
 /**
@@ -99,6 +121,8 @@ PIXI.DisplayObjectContainer.prototype.addChildAt = function(child, index)
         this.children.splice(index, 0, child);
 
         if(this.stage)child.setStageReference(this.stage);
+
+        return child;
     }
     else
     {
@@ -373,17 +397,19 @@ PIXI.DisplayObjectContainer.prototype._renderWebGL = function(renderSession)
 
     if(this._mask || this._filters)
     {
+        
+        // push filter first as we need to ensure the stencil buffer is correct for any masking
+        if(this._filters)
+        {
+            renderSession.spriteBatch.flush();
+            renderSession.filterManager.pushFilter(this._filterBlock);
+        }
+
         if(this._mask)
         {
             renderSession.spriteBatch.stop();
             renderSession.maskManager.pushMask(this.mask, renderSession);
             renderSession.spriteBatch.start();
-        }
-
-        if(this._filters)
-        {
-            renderSession.spriteBatch.flush();
-            renderSession.filterManager.pushFilter(this._filterBlock);
         }
 
         // simple render children!
@@ -394,8 +420,8 @@ PIXI.DisplayObjectContainer.prototype._renderWebGL = function(renderSession)
 
         renderSession.spriteBatch.stop();
 
+        if(this._mask)renderSession.maskManager.popMask(this._mask, renderSession);
         if(this._filters)renderSession.filterManager.popFilter();
-        if(this._mask)renderSession.maskManager.popMask(renderSession);
         
         renderSession.spriteBatch.start();
     }

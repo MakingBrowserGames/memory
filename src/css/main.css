@@ -3,16 +3,19 @@
   user-select: none;
 }
 
+
 html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #fff;
-  color: #fff;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
 }
 
 .game {
-  width: 920px;
-  height: 575px;
-  margin: 20px auto;
+  width: 915px;
+  //width: 100%;
+  height: 690px;
+  margin: 0;
 }

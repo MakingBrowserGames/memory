@@ -307,7 +307,10 @@ Phaser.StateManager.prototype = {
             //  Already got a state running?
             if (this.current)
             {
-                this.onShutDownCallback.call(this.callbackContext, this.game);
+                if (this.onShutDownCallback)
+                {
+                    this.onShutDownCallback.call(this.callbackContext, this.game);
+                }
 
                 this.game.tweens.removeAll();
 
@@ -338,7 +341,7 @@ Phaser.StateManager.prototype = {
                 this.onPreloadCallback.call(this.callbackContext, this.game);
 
                 //  Is the loader empty?
-                if (this.game.load.totalQueuedFiles() === 0)
+                if (this.game.load.totalQueuedFiles() === 0 && this.game.load.totalQueuedPacks() === 0)
                 {
                     this.loadComplete();
                 }

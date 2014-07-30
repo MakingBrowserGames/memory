@@ -59,7 +59,7 @@ Phaser.AnimationParser = {
         //  Zero or smaller than frame sizes?
         if (width === 0 || height === 0 || width < frameWidth || height < frameHeight || total === 0)
         {
-            console.warn("Phaser.AnimationParser.spriteSheet: width/height zero or width/height < given frameWidth/frameHeight");
+            console.warn("Phaser.AnimationParser.spriteSheet: '" + key + "'s width/height zero or width/height < given frameWidth/frameHeight");
             return null;
         }
 
@@ -72,6 +72,7 @@ Phaser.AnimationParser = {
         {
             var uuid = game.rnd.uuid();
 
+            //  uuid needed?
             data.addFrame(new Phaser.Frame(i, x, y, frameWidth, frameHeight, '', uuid));
 
             PIXI.TextureCache[uuid] = new PIXI.Texture(PIXI.BaseTextureCache[key], {
@@ -152,10 +153,7 @@ Phaser.AnimationParser = {
                     frames[i].spriteSourceSize.w,
                     frames[i].spriteSourceSize.h
                 );
-
-                PIXI.TextureCache[uuid].trim = new Phaser.Rectangle(frames[i].spriteSourceSize.x, frames[i].spriteSourceSize.y, frames[i].sourceSize.w, frames[i].sourceSize.h);
             }
-
         }
 
         return data;
@@ -221,8 +219,6 @@ Phaser.AnimationParser = {
                     frames[key].spriteSourceSize.w,
                     frames[key].spriteSourceSize.h
                 );
-
-                PIXI.TextureCache[uuid].trim = new Phaser.Rectangle(frames[key].spriteSourceSize.x, frames[key].spriteSourceSize.y, frames[key].sourceSize.w, frames[key].sourceSize.h);
             }
 
             i++;
@@ -298,13 +294,10 @@ Phaser.AnimationParser = {
                 width: width,
                 height: height
             });
-
-            //  Trimmed?
+                        //  Trimmed?
             if (frameX !== null || frameY !== null)
             {
                 newFrame.setTrim(true, width, height, frameX, frameY, frameWidth, frameHeight);
-
-                PIXI.TextureCache[uuid].trim = new Phaser.Rectangle(frameX, frameY, width, height);
             }
         }
 

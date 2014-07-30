@@ -13,6 +13,70 @@
 Phaser.Utils = {
 
     /**
+     * Gets an objects property by string.
+     *
+     * @method Phaser.Utils.getProperty
+     * @param {object} obj - The object to traverse.
+     * @param {string} prop - The property whose value will be returned.
+     * @return {*} the value of the property or null if property isn't found .
+     */
+    getProperty: function(obj, prop) {
+
+        var parts = prop.split('.'),
+            last = parts.pop(),
+            l = parts.length,
+            i = 1,
+            current = parts[0];
+            
+        while (i < l && (obj = obj[current]))
+        {
+            current = parts[i];
+            i++;
+        }
+
+        if (obj)
+        {
+            return obj[last];
+        }
+        else
+        {
+            return null;
+        }
+
+    },
+
+    /**
+     * Sets an objects property by string.
+     *
+     * @method Phaser.Utils.setProperty
+     * @param {object} obj - The object to traverse
+     * @param {string} prop - The property whose value will be changed
+     * @return {object} The object on which the property was set.
+     */
+    setProperty: function(obj, prop, value) {
+
+        var parts = prop.split('.'),
+            last = parts.pop(),
+            l = parts.length,
+            i = 1,
+            current = parts[0];
+            
+        while (i < l && (obj = obj[current]))
+        {
+            current = parts[i];
+            i++;
+        }
+
+        if (obj)
+        {
+            obj[last] = value;
+        }
+
+        return obj;
+
+    },
+
+    /**
      * Transposes the elements of the given Array.
      *
      * @method Phaser.Utils.transposeArray
@@ -294,6 +358,56 @@ Phaser.Utils = {
 
         // Return the modified object
         return target;
+
+    },
+
+    /**
+    * Mixes the source object into the destination object, returning the newly modified destination object.
+    * Based on original code by @mudcube
+    * 
+    * @method Phaser.Utils.mixin
+    * @param {object} from - The object to copy (the source object).
+    * @param {object} to - The object to copy to (the destination object).
+    * @return {object} The modified destination object.
+    */
+    mixin: function (from, to) {
+
+        if (!from || typeof (from) !== "object")
+        {
+            return to;
+        }
+
+        for (var key in from)
+        {
+            var o = from[key];
+
+            if (o.childNodes || o.cloneNode)
+            {
+                continue;
+            }
+
+            var type = typeof (from[key]);
+
+            if (!from[key] || type !== "object")
+            {
+                to[key] = from[key];
+            }
+            else
+            {
+                //  Clone sub-object
+                if (typeof (to[key]) === type)
+                {
+                    to[key] = Phaser.Utils.mixin(from[key], to[key]);
+                }
+                else
+                {
+                    to[key] = Phaser.Utils.mixin(from[key], new o.constructor());
+                }
+            }
+        }
+
+        return to;
+
     }
 
 };
